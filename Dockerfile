@@ -9,7 +9,7 @@ COPY requirements.txt /app/requirements.txt
 
 RUN pip3 install -r /app/requirements.txt
 
-COPY validate.py /app
+COPY mutating.py /app
 
 COPY wsgi.py /app
 

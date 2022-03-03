@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: validation-webhook
+  name: mutation-webhook
   labels:
-    app: validate
+    app: mutate
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: validate
+      app: mutate
   template:
     metadata:
       labels:
-        app: validate
+        app: mutate
     spec:
       containers:
       - name: webhook
-        image: manilson97/webhook:latest
+        image: manilson97/mutate:latest
         ports:
         - containerPort: 443
         env:
