@@ -1,19 +1,16 @@
-FROM ubuntu:20.04
+FROM ubuntu
 
-MAINTANER "Manilson"
-
-RUN apt-get update -y && \
-    apt-get install -y python-pip python-dev
-
-# We copy just the requirements.txt first to leverage Docker cache
-COPY ./requirements.txt /app/requirements.txt
+RUN apt-get update -y 
+RUN apt-get install -y python3-pip
 
 WORKDIR /app
 
-RUN pip install -r requirements.txt
+COPY requirements.txt /app/requirements.txt
 
-COPY . /app
+RUN pip3 install -r /app/requirements.txt
 
-ENTRYPOINT [ "python" ]
+COPY validate.py /app
 
-CMD [ "validating_admission_controller.py" ]
+COPY wsgi.py /app
+
+CMD gunicorn --certfile=/certs/webhook.crt --keyfile=/certs/webhook.key --bind 0.0.0.0:443 wsgi:webhook
